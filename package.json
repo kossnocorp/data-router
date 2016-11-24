@@ -50,9 +50,12 @@
     "phantomjs": "^1.9.18",
     "power-assert": "^1.1.0",
     "pretty-bytes": "^2.0.1",
-    "sinon": "^1.17.2",
+    "sinon": "2.0.0-pre.4",
     "uglify-js": "^2.6.0",
     "webpack": "^1.12.3",
     "webpack-espower-loader": "^1.0.1"
+  },
+  "dependencies": {
+    "karma-phantomjs-launcher": "^1.0.2"
   }
 }
