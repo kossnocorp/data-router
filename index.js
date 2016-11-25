@@ -1,4 +1,6 @@
-module.exports = function(fullPathStr, routes) {
+module.exports = match
+
+function match (fullPathStr, routes) {
   var fullPath = parseFullPath(fullPathStr)
   var matchResult = matchRoute(fullPath.path, routes)
 
@@ -15,6 +17,26 @@ module.exports = function(fullPathStr, routes) {
   } else {
     return null
   }
+}
+
+match.buildURL = function (route) {
+  var path = Object.keys(route.segments).reduce(function (resultingPath, segmentKey) {
+    return resultingPath.replace(':' + segmentKey, route.segments[segmentKey])
+  }, route.route.path)
+
+  var queryKeys = Object.keys(route.query)
+  var query = queryKeys.reduce(function (resultingQuery, queryKey) {
+    var delimeter = resultingQuery === '' ? '?' : '&'
+    var value = parseQueryValue(route.query[queryKey])
+    var valueChunk = (typeof value === 'boolean' && value) ? '' : '=' + value
+    return resultingQuery + delimeter + queryKey + valueChunk
+  }, '')
+
+  var fragment = typeof route.fragment === 'string' && route.fragment.length > 0
+    ? '#' + route.fragment
+    : ''
+
+  return path + query + fragment
 }
 
 function parseFullPath(fullPathStr) {
